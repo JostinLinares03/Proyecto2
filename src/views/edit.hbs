@@ -1,0 +1,30 @@
+!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Servicios de telefonia</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <a href="/" class="navbar=brand"> <span style="color:white"> Editar</span> </a>
+    </nav>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/update/{{id_servicio}}" method="post">
+                            <div class="form-grup">
+                                <input type="text" value="{{nombre_servicio}}" class="form-controll">
+                            </div>
+                            <button type="submit" class="btb btn-primary">Ingresar  Servicio</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

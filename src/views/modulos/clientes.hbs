@@ -1,0 +1,57 @@
+<h1 class="m-16 text-5x1">Clientes</h1>
+
+<div class="container">
+        <div class="row-mt-5">
+            <div class="col-md-7">
+                <table class="table table-bordered table hover">
+                    <thead>
+                        <tr>
+                            <th>Dpi</th>
+                            <th>Nombre</th>
+                            <th>Correo electronico</th>
+                            <th>Direccion</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                
+                <tbody>
+                        {{#if data}}
+                            {{#each data }}
+                                <tr>
+                                    <th>{{dpi}}</th>
+                                    <th>{{nombre}}</th>
+                                    <th>{{email}}</th>
+                                    <th>{{direccion}}</th>
+                                    <th>
+                                        <a href="http://localhost:3000/clientes/delete/{{id_servicio}}"  class="btn btn-danger"> Eliminar</a>
+                                        <a href="/clientes/update/{{id_servicio}}"  class="btn btn-info"> Editar</a>
+                                    </th>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-5">
+                        <form action="/clientes/add" method="post">
+                            <div class="form-grup">
+                                <input type="number" name="dpi" placeholder="Dpi" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="text" name="nombre" placeholder="Nombre" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="email" name="email" placeholder="Correo electronico" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="text" name="direccion" placeholder="Direccion" class="form-controll">
+                            </div>
+                            <button type="submit" class="btb btn-primary">Ingresar  Cliente</button>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>

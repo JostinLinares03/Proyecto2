@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Telefónicos</title>
+    <!-- Referencia a Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" type="text/css" href="estilo/estilos.css">
+    
+</head>
+
+<body>
+    <!-- Contenedor de Login -->
+    <div class="container text-left" id="loginModule">
+        <div class="module-header">
+            <h1 class="module-title">Login</h1>
+        </div>
+        <form onsubmit="return login()">
+            <div class="form-group">
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="username" placeholder="Ingrese su nombre de usuario">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+    </div>
+
+    <!-- Contenedor del Menú Principal -->
+    <div class="container text-left" id="menuPrincipal" style="display: none;">
+        <!-- Barra vertical -->
+        <div class="sidebar">
+            <a class="nav-link" href="#" onclick="mostrarInicio()">Inicio</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarClientes()">Clientes</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarServiciosDigitales()">Servicios Digitales</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarVentas()">Ventas</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarServiciosPorCliente()">Servicio por Cliente</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarIngresoClientes()">Ingreso de Clientes</a>
+            <div class="horizontal-bar"></div>
+            <a class="nav-link" href="#" onclick="mostrarIngresoServiciosDigitales()">Ingreso de Servicios Digitales</a>
+        </div>
+
+        <!-- Contenedor de Inicio -->
+        <div class="content" id="inicioModule" style="display: none;">
+            <div class="module-header">
+                <h1>Inicio</h1>
+            </div>
+            <!-- Aquí van las gráficas de servicios más vendidos y zonas de mayor contratación -->
+            <div class="row">
+                <!-- Gráfica de Productos Más Vendidos -->
+                <div class="col">
+                    <div class="module-header">
+                        <h2>Productos más Vendidos</h2>
+                    </div>
+                    <div style="max-width: 1000px; height: 500px;">
+                        <canvas id="graficaProductos" width="1000" height="500"></canvas>
+                    </div>
+                </div>
+                <!-- Gráfica de Zonas con más Contrataciones -->
+                <div class="col">
+                    <div class="module-header">
+                        <h2>Zonas con más Contrataciones</h2>
+                    </div>
+                    <div style="max-width: 1000px; height: 500px;">
+                        <canvas id="graficaZonas" width="1000" height="500"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor de Clientes -->
+        <div class="content" id="clientesModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Clientes</h1>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>DPI</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se listarían los clientes desde la base de datos -->
+                    <tr>
+                        <td>1234567890123</td>
+                        <td>Juan Pérez</td>
+                        <td>juan@example.com</td>
+                        <td>123 Calle Principal</td>
+                    </tr>
+                    <!-- Agregar más filas según sea necesario -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Contenedor de Servicios Digitales -->
+        <div class="content" id="serviciosDigitalesModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Servicios Digitales</h1>
+            </div>
+            <ul class="list-group">
+                <!-- Aquí se listarían los servicios digitales desde la base de datos -->
+                <li class="list-group-item" data-id="1">
+                    <span class="service-id">1.</span> Internet
+                </li>
+                <li class="list-group-item" data-id="2">
+                    <span class="service-id">2.</span> Cable
+                </li>
+                <li class="list-group-item" data-id="3">
+                    <span class="service-id">3.</span> Telefonía Residencial
+                </li>
+                <li class="list-group-item" data-id="4">
+                    <span class="service-id">4.</span> Telefonía Móvil
+                </li>
+                <!-- Agregar más elementos según sea necesario -->
+            </ul>
+        </div>
+
+        <!-- Contenedor de Ventas -->
+        <div class="content" id="ventasModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Ventas</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="dpi">DPI:</label>
+                    <input type="text" class="form-control" id="dpi" placeholder="Ingrese el DPI del cliente">
+                </div>
+                <div class="form-group">
+                    <label for="nombreCliente">Nombre del Cliente:</label>
+                    <input type="text" class="form-control" id="nombreCliente" placeholder="Ingrese el nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label for="idServicio">ID del Servicio:</label>
+                    <input type="text" class="form-control" id="idServicio" placeholder="Ingrese el ID del servicio">
+                </div>
+                <div class="form-group">
+                    <label for="nombreServicio">Nombre del Servicio:</label>
+                    <input type="text" class="form-control" id="nombreServicio" placeholder="Ingrese el nombre del servicio">
+                </div>
+                <div class="form-group">
+                    <label for="precio">Precio:</label>
+                    <input type="text" class="form-control" id="precio" placeholder="Ingrese el precio del servicio">
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" class="form-control" id="fecha">
+                </div>
+                <button type="submit" class="btn btn-primary">Realizar Venta</button>
+            </form>
+        </div>
+
+        <!-- Contenedor de Servicios por Cliente -->
+        <div class="content" id="serviciosPorClienteModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Servicios por Cliente</h1>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>DPI Cliente</th>
+                        <th>Nombre Cliente</th>
+                        <th>Servicios Contratados</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaServiciosPorCliente">
+                    <!-- Aquí se mostrarán los servicios por cliente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Contenedor de Ingreso de Clientes -->
+        <div class="content" id="ingresoClientesModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Ingreso de Clientes</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="dpi">DPI:</label>
+                    <input type="text" class="form-control" id="dpi" placeholder="Ingrese el DPI del cliente">
+                </div>
+                <div class="form-group">
+                    <label for="nombreCliente">Nombre:</label>
+                    <input type="text" class="form-control" id="nombreCliente" placeholder="Ingrese el nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label for="emailCliente">Email:</label>
+                    <input type="text" class="form-control" id="emailCliente" placeholder="Ingrese el correo electrónico del cliente">
+                </div>
+                <div class="form-group">
+                    <label for="direccionCliente">Dirección:</label>
+                    <input type="text" class="form-control" id="direccionCliente" placeholder="Ingrese la dirección del cliente">
+                </div>
+                <button type="submit" class="btn btn-primary">Ingresar Cliente</button>
+            </form>
+        </div>
+
+        <!-- Contenedor de Ingreso de Servicios Digitales -->
+        <div class="content" id="ingresoServiciosDigitalesModule" style="display: none;">
+            <div class="module-header">
+                <h1 class="module-title">Ingreso de Servicios Digitales</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="idServicio">ID del Servicio:</label>
+                    <input type="text" class="form-control" id="idServicio" placeholder="Ingrese el ID del servicio">
+                </div>
+                <div class="form-group">
+                    <label for="nombreServicio">Nombre del Servicio:</label>
+                    <input type="text" class="form-control" id="nombreServicio" placeholder="Ingrese el nombre del servicio">
+                </div>
+                <button type="submit" class="btn btn-primary">Ingresar Servicio Digital</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap y jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Script de Chart.js y otros scripts necesarios -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Datos de ejemplo para las gráficas (puedes obtener estos datos desde tu base de datos)
+        const productosMasVendidos = [
+            { nombre: 'Internet', cantidad: 50 },
+            { nombre: 'Cable', cantidad: 30 },
+            { nombre: 'Telefonía Residencial', cantidad: 20 },
+            { nombre: 'Telefonía Móvil', cantidad: 45 },
+            // Agregar más datos según sea necesario
+        ];
+
+        const zonasMayorContratacion = [
+            { nombre: 'Zona 1', contrataciones: 150 },
+            { nombre: 'Zona 2', contrataciones: 120 },
+            { nombre: 'Zona 3', contrataciones: 80 },
+            // Agregar más datos según sea necesario
+        ];
+
+        // Funciones para mostrar/ocultar módulos y realizar el login
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Verificar las credenciales (esto es solo un ejemplo, en una implementación real se debe hacer en el servidor)
+            if (username === 'usuario' && password === 'contra') {
+                alert('Login exitoso. ¡Bienvenido, ' + username + '!');
+                mostrarMenuPrincipal();
+            } else {
+                alert('Error de login. Verifique sus credenciales.');
+            }
+
+            return false; // Evitar que el formulario se envíe y recargue la página
+        }
+
+        function mostrarMenuPrincipal() {
+            ocultarTodosLosModulos();
+            $('#loginModule').hide();
+            $('#menuPrincipal').show();
+            mostrarInicio();
+        }
+
+        function mostrarInicio() {
+            ocultarTodosLosModulos();
+            $('#inicioModule').show();
+            mostrarGraficaProductos();
+            mostrarGraficaZonas();
+        }
+
+        function mostrarClientes() {
+            ocultarTodosLosModulos();
+            $('#clientesModule').show();
+        }
+
+        function mostrarServiciosDigitales() {
+            ocultarTodosLosModulos();
+            $('#serviciosDigitalesModule').show();
+        }
+
+        function mostrarVentas() {
+            ocultarTodosLosModulos();
+            $('#ventasModule').show();
+        }
+
+        function mostrarServiciosPorCliente() {
+            ocultarTodosLosModulos();
+            $('#serviciosPorClienteModule').show();
+        }
+
+        function mostrarIngresoClientes() {
+            ocultarTodosLosModulos();
+            $('#ingresoClientesModule').show();
+        }
+
+        function mostrarIngresoServiciosDigitales() {
+            ocultarTodosLosModulos();
+            $('#ingresoServiciosDigitalesModule').show();
+        }
+
+        // Mostrar el formulario de login al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            ocultarTodosLosModulos();
+            $('#loginModule').show();
+        });
+
+        // Funciones para generar las gráficas con Chart.js
+        function mostrarGraficaProductos() {
+            const labels = productosMasVendidos.map(producto => producto.nombre);
+            const cantidades = productosMasVendidos.map(producto => producto.cantidad);
+
+            const ctx = document.getElementById('graficaProductos').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cantidad Vendida',
+                        data: cantidades,
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(255, 206, 86, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function mostrarGraficaZonas() {
+            const labels = zonasMayorContratacion.map(zona => zona.nombre);
+            const contrataciones = zonasMayorContratacion.map(zona => zona.contrataciones);
+
+            const ctx = document.getElementById('graficaZonas').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut', // Cambiamos el tipo de gráfica a pastel (doughnut)
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: contrataciones,
+                        backgroundColor: [
+                            '#FF6384', // Color para Zona 1
+                            '#36A2EB', // Color para Zona 2
+                            '#FFCE56', // Color para Zona 3
+                            // Puedes agregar más colores para más zonas según sea necesario
+                        ],
+                        borderColor: 'white', // Color del borde de las secciones
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    cutoutPercentage: 60, // Ajusta el tamaño del centro del pastel (agujero)
+                    legend: {
+                        display: true,
+                        position: 'right', // Posición de la leyenda (derecha)
+                    }
+                }
+            });
+        }
+
+        function ocultarTodosLosModulos() {
+            $('#inicioModule').hide();
+            $('#clientesModule').hide();
+            $('#serviciosDigitalesModule').hide();
+            $('#ventasModule').hide();
+            $('#serviciosPorClienteModule').hide();
+            $('#ingresoClientesModule').hide();
+            $('#ingresoServiciosDigitalesModule').hide();
+        }
+    </script>
+</body>
+
+</html>
