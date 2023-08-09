@@ -37,7 +37,7 @@ app.get('/', (req,res) => {
 app.post('/home', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    if (username == 'usuario' && password == '1234') {
+    if (username == 'usuario' && password == 'contra') {
         console.log('Login successful');
         req.getConnection((err, conn) => {
             conn.query('SELECT id_servicio, COUNT(*) as cantidad FROM ventas GROUP BY id_servicio', (err, results) => {
