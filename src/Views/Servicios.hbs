@@ -1,0 +1,71 @@
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Servicios</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/home">Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Servicios.hbs">Servicios</a>
+            <span class="visually-hidden">(current)</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Clientes.hbs">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Ventas.hbs">Ventas</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</body>
+<div class="container mt-4">
+        <div class="row">
+            <div class="col-md-7">
+              <table class="table table-bordered table hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nombre Servicio</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                        {{#if data}}
+                            {{#each data }}
+                                <tr>
+                                    <th>{{id_servicio}}</th>
+                                    <th>{{nombre_servicio}}</th>
+                                    <th>
+                                        <a href="/src/Views/Servicios.hbs/delete/{{id_servicio}}"  class="btn btn-danger"> Eliminar</a>
+                                        <a href="/src/Views/Servicios.hbs/update/{{id_servicio}}"  class="btn btn-info"> Editar</a>
+                                    </th>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-5">
+                        <form action="/src/Views/Servicios.hbs/add" method="post">
+                            <div class="form-grup">
+                                <input type="text" name="nombre_servicio" placeholder="Nombre Servicio" class="form-controll">
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success">Ingresar  Servicio</button>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>

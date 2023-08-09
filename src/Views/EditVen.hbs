@@ -1,0 +1,30 @@
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/src/Views/Ventas.hbs/update" method="post">
+                             <div class="form-grup">
+                                <input type="text" name="num"  value="{{num}}"  class="form-control">
+                            </div>
+                            <div class="form-grup">
+                                <input type="number" name="dpi"  value="{{data.dpi}}"  class="form-control">
+                            </div>
+                            <div class="form-grup">
+                                <input type="number" name="id_servicio" value="{{data.id_servicio}}"  class="form-control">
+                            </div>
+                            <div class="form-grup">
+                                <input type="number" name="precio" value="{{data.precio}}"  class="form-control">
+                            </div>
+                            <div class="form-grup">
+                                <input type="date" name="fecha" value="{{data.fecha}}" class="form-control">
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success">Editar venta</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

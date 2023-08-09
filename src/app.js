@@ -1,27 +1,20 @@
 const express = require('express');
-const path = require('path');
-const mysql = require('mysql');
-const {engine} = require('express-handlebars');
-const bodyParser = require('body-parser');
-const expressmyConnection = require('express-myconnection')
-const app = express();
-const hbs = require('hbs');
 const morgan = require('morgan');
+const mysql = require('mysql');
+const expressmyConnection = require('express-myconnection');
+const path = require('path');
+const {engine} = require('express-handlebars');
+const app = express();
 
-//importing routes
-const customerRoutes = require('./routes/customer')
+const controller = require('./Routes/routes')
 
-const { insert , read, update, remove} = require('./operations');
-
-//settings 
+//settings
 app.use(express.json());
-//app.set('view engine', 'ejs');
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs',engine({
     extname: '.hbs'
 }));
-
 
 
 //middlewares
@@ -32,46 +25,55 @@ app.use(expressmyConnection(mysql,{
     password: '123456789',
     port: 3306,
     database: 'Empresa_telefonica'
-}, 'single'));
+},'single'));
 app.use(express.urlencoded({extended: false}));
 
 
+//render 
+app.get('/', (req,res) => {
+    res.render('login');
+});
 
-//routes
-app.use('/', customerRoutes);
+app.post('/home', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if (username == 'usuario' && password == '1234') {
+        console.log('Login successful');
+        req.getConnection((err, conn) => {
+            conn.query('SELECT id_servicio, COUNT(*) as cantidad FROM ventas GROUP BY id_servicio', (err, results) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Error al obtener los datos.');
+                } else {
+                    const labels = results.map(item => item.id_servicio);
+                    const values = results.map(item => item.cantidad);
+                    
+                    res.render('home', {
+                        labels: JSON.stringify(labels),
+                        values: JSON.stringify(values)
+                    });
+                }
+            });
+        }); 
+    } else {
+        console.log('Login Fail');
+    }
+});
 
-//stactic files 
-app.use(express.static(path.join(__dirname, 'public')));
-
-/*app.get('/',(req , res) => {
-    res.render(path.resolve(__dirname, 'index.ejs'))
+/*app.post('/home', (req,res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if (username == 'usuario' && password == '1234'){
+        console.log('Login succes');
+        res.render('home');
+    }else {
+        console.log('Login Fail');
+    }
 });*/
 
+app.use('/', controller);
 
-app.get('/#Clientes',(req , res) => {
-    insert(connection, {nombre_servicio: 'Telefonía Residencial'},(result) => {
-        res.json(result);
-    });
-});
-app.get('/read',(req , res) => {
-    read(connection, (result) => {
-        res.json(result);
-    });
-});
-
-app.get('/update',(req , res) => {
-    update(connection, { nombre_servicio: 'Telefonía movil', id: 3},(result) => {
-        res.json(result);
-    });
-});
-
-app.get('/remove',(req , res) => {
-    remove(connection, {id: 3},(result) => {
-        res.json(result);
-    });
-});
-
-//starting server
+//startin server 
 app.listen(3000, () => {
     console.log('Server on port 3000 ...');
 });

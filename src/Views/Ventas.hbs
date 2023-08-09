@@ -1,0 +1,86 @@
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Ventas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/home">Inicio
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Servicios.hbs">Servicios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Clientes.hbs">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/src/Views/Ventas.hbs">Ventas</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</body>
+<div class="container mt-4">
+        <div class="row">
+            <div class="col-md-7">
+                <table class="table table-bordered table hover">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>DPI</th>
+                            <th>Id servicio</th>
+                            <th>Precio</th>
+                            <th>Fecha</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                        {{#if data}}
+                            {{#each data }}
+                                <tr>
+                                    <th>{{num}}</th>
+                                    <th>{{dpi}}</th>
+                                    <th>{{id_servicio}}</th>
+                                    <th>{{precio}}</th>
+                                    <th>{{fecha}}</th>
+                                    <th>
+                                        <a href="/src/Views/Ventas.hbs/delete/{{num}}"  class="btn btn-danger"> Eliminar</a>
+                                        <a href="/src/Views/Ventas.hbs/update/{{num}}"  class="btn btn-info"> Editar</a>
+                                    </th>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                </tbody>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-5">
+                        <form action="/src/Views/Ventas.hbs/add" method="post">
+                            <div class="form-grup">
+                                <input type="number" name="dpi" placeholder="Dpi" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="number" name="id_servicio" placeholder="Id servicio" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="number" name="precio" placeholder="Precio" class="form-controll">
+                            </div>
+                            <div class="form-grup">
+                                <input type="date" name="fecha" placeholder="Fecha" class="form-controll">
+                            </div>
+                            <br>
+                            <button type="submit" class="btn btn-success">Ingresar  venta</button>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
